@@ -1,4 +1,5 @@
 ## Day 2 Puzzle 
+## tidy solution 
 library(dplyr)
 library(tibble)
 library(tidyr)
@@ -43,3 +44,6 @@ day2 |>
   summarise(power = prod(valid_max),.by = game_num)|>
   pull(power) |> 
   sum()
+
+## Base solution 
+## TODO 
