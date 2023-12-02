@@ -13,15 +13,14 @@ day2 = tibble::as.tibble(readLines("../data/day2.txt"))
 day2 |>
   separate(value, into = c("game", "colors"), sep = ":") |>
   separate_rows(colors, sep = ";") |>
-  group_by(game) |>
-  mutate(shows = row_number()) |>
+  mutate(shows = row_number(), .by = "game") |>
   separate_rows(colors, sep = ",") |>
   mutate(colors = colors |> trimws()) |>
   separate(colors, into = c("count", "color"),
            sep = " ", convert = T) |>
   separate(game, into = c("game", "game_num"), 
            sep = " ", convert = T) |>
-  left_join(limits) |>
+  left_join(limits, by = join_by(color)) |>
   mutate(good = count <= limits) |>
   summarise(valid = all(good), .by = "game_num") |>
   filter(valid) |> 
@@ -33,8 +32,7 @@ day2 |>
 day2 |>
   separate(value, into = c("game", "colors"), sep = ":") |>
   separate_rows(colors, sep = ";") |>
-  group_by(game) |>
-  mutate(shows = row_number()) |>
+  mutate(shows = row_number(),.by = "game") |>
   separate_rows(colors, sep = ",") |>
   mutate(colors = colors |> trimws()) |>
   separate(colors, into = c("count", "color"),
